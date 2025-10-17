@@ -1,15 +1,23 @@
 import express from 'express';
 import connectDb from './config/dbConfig.js';
 
-import cloudinary from './utils/cloudinary.js';
-import upload from './middlewares/multer.js';
+import cloudinary from './config/cloudinaryConfig.js';
+import upload from './config/multerConfig.js';
 import fs from 'fs';
+import { createPost } from './controllers/postController.js';
 
 const app = express();
+
+// middlware
+app.use(express.json());
+app.use(express.text());
+app.use(express.urlencoded({extended:true}));
 
 app.get('/',(req,res)=>{
     res.send('<form action="/upload-file" method="post" enctype="multipart/form-data"><input type="file" name="file" /><button type="submit">upload</button></form>');
 });
+
+app.post('/posts',upload.single('file'),createPost);
 
 app.post('/upload-file',upload.single('file'),async function (req, res) {
   try {
