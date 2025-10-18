@@ -1,9 +1,7 @@
 import express from 'express';
 import connectDb from './config/dbConfig.js';
 
-// routers
-import postRouter from './routers/post.js';
-import userRouter from './routers/user.js'
+import apiRouter from './routers/apiRouter.js'
 
 const app = express();
 
@@ -12,8 +10,8 @@ app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended:true}));
 
-app.use('/posts',postRouter);
-app.use('/users',userRouter)
+
+app.use("/api",apiRouter);
 
 app.listen(3000,()=>{
     console.log("server running");
