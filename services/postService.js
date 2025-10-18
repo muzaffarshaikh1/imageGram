@@ -1,8 +1,17 @@
-import { response } from "express"
+import {createPost as createPostRepository } from '../repositories/postRepository.js'
+import { uploadFileToCloudinary } from "../uploads/uploadFileToCloudinary.js";
 
 export const createPost = async (createPostObject) => {
-    // 1.take the image of the post and upload it on cloudinary
-    // 2.take the URL of image from cloudinary response
-    // 3. store caption and image url in Db
-    // 4. return the post object
+    const caption = createPostObject.caption?.trim();
+
+    // upload image to cloudinary 
+    const image = await uploadFileToCloudinary(createPostObject.localImagePath);
+
+    console.log(caption, image.secure_url);
+
+    // const user = createPostObject.user;
+
+    const post = await createPostRepository(caption,image.secure_url);
+    return post;
+
 }

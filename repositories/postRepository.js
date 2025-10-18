@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
-import Post from "../schema/post";
+import Post from "../schema/post.js";
 
-export const createPost = async ({caption, image, user}) =>{
+export const createPost = async (caption, image) =>{
     try {
         // const post = Post.create({caption, image, user});
-        const post = new Post({caption, image, user});
+        const post = new Post({caption, image});
         await post.save();
         return post;
     } catch (error) {
