@@ -1,17 +1,17 @@
-import cloudinary from "../config/cloudinaryConfig.js";
+import { json } from "express";
+import {uploadFileToCloudinary} from "../uploads/uploadFileToCloudinary.js";
 
 export async function createPost(req,res){
    try {
      
-     const result = await cloudinary.uploader.upload(req.file.path, {
-        folder: 'imageGram',
-    });
+    const caption = req.body.caption;
+    const image = await uploadFileToCloudinary(req.file.path);
 
-    if(result){
-        res.json({message:'post created successfully!'})
-    }else{
-        res.json({message:'error while file upload!'})
-    }
+
+    res.json({caption,image:image.secure_url});
+
+    
+    
    } catch (error) {
     console.log("error in create post:",error)
     res.json({message:'error in creating post'});

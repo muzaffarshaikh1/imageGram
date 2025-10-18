@@ -1,46 +1,17 @@
 import express from 'express';
 import connectDb from './config/dbConfig.js';
 
-import cloudinary from './config/cloudinaryConfig.js';
 import upload from './config/multerConfig.js';
-import fs from 'fs';
 import { createPost } from './controllers/postController.js';
 
 const app = express();
 
-// middlware
+// middlwares
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({extended:true}));
 
-app.get('/',(req,res)=>{
-    res.send('<form action="/upload-file" method="post" enctype="multipart/form-data"><input type="file" name="file" /><button type="submit">upload</button></form>');
-});
-
-app.post('/posts',upload.single('file'),createPost);
-
-app.post('/upload-file',upload.single('file'),async function (req, res) {
-  try {
-
-    // Upload to Cloudinary
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: 'uploads', // optional folder name
-    });
-
-    console.log("Cloudinary upload success:", result);
-
-    fs.unlinkSync(req.file.path);
-
-    res.json({
-      message: 'File uploaded successfully!',
-      cloudinary_url: result.secure_url,
-    });
-  } catch (error) {
-    console.error("Cloudinary upload error:", error);
-    res.status(500).json({ error: 'Upload failed!' });
-  }
-  
-});
+app.post('/posts',upload.single('image'),createPost);
 
 app.listen(3000,()=>{
     console.log("server running");
