@@ -1,4 +1,4 @@
-import {createPost as createPostRepository } from '../repositories/postRepository.js'
+import {createPost as createPostRepository, findAllPost as findAllPostRepostory } from '../repositories/postRepository.js'
 import { uploadFileToCloudinary } from "../uploads/uploadFileToCloudinary.js";
 
 export const createPost = async (createPostObject) => {
@@ -14,4 +14,9 @@ export const createPost = async (createPostObject) => {
     const post = await createPostRepository(caption,image.secure_url);
     return post;
 
+}
+
+export const findAllPost = async () =>{
+    const posts = findAllPostRepostory();
+    return posts;
 }

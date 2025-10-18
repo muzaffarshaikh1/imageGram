@@ -1,4 +1,4 @@
-import { createPost as createPostService } from "../services/postService.js";
+import { createPost as createPostService, findAllPost as findAllPostService } from "../services/postService.js";
 
 export async function createPost(req, res) {
 
@@ -13,4 +13,14 @@ export async function createPost(req, res) {
       data: post
    })
 
+}
+
+export async function getAllPost(req,res){
+   const posts = await findAllPostService();
+
+   return res.status(200).json({
+      success:true,
+      message:"all posts fetched successfully",
+      data:posts
+   })
 }
