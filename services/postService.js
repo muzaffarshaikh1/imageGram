@@ -1,4 +1,4 @@
-import {createPost, findAllPost, countAllPost, findPostById, deletePostById } from '../repositories/postRepository.js'
+import {createPost, findAllPost, countAllPost, findPostById, deletePostById, updatePostById } from '../repositories/postRepository.js'
 import { uploadFileToCloudinary } from "../uploads/uploadFileToCloudinary.js";
 
 export const createPostService = async (createPostObject) => {
@@ -39,4 +39,20 @@ export const deletePostService = async (postId) =>{
     const post = await deletePostById(postId);
 
     return post;
+}
+
+export const updatePostService = async (postId, updateObject) =>{
+
+    if(updateObject?.localImagePath){
+        
+        // upload image to cloudinary 
+        const image = await uploadFileToCloudinary(updateObject.localImagePath);
+        updateObject['image'] = image.secure_url;
+
+        delete updateObject['localImagePath'];
+    }
+
+    const response = await updatePostById(postId,updateObject);
+
+    return response;
 }

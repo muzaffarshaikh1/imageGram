@@ -7,8 +7,8 @@ const app = express();
 
 // middlwares
 app.use(express.json());
-app.use(express.text());
-app.use(express.urlencoded({extended:true}));
+// app.use(express.text());
+app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api",apiRouter);

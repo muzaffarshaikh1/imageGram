@@ -1,4 +1,4 @@
-import { createPostService, findAllPostService, findPostService, deletePostService } from "../services/postService.js";
+import { createPostService, findAllPostService, findPostService, deletePostService, updatePostService } from "../services/postService.js";
 
 export async function createPost(req, res) {
 
@@ -70,6 +70,39 @@ export async function deletePost(req,res){
       })
    } catch (error) {
       console.log("error in deletePost controller:",error);
+      return res.status(500).json({
+         success:false,
+         message:"internal server error",
+      })
+   }
+}
+
+export async function updatePost(req,res){
+   try {
+      const postId = req.params.id;
+      const updateObject = req.body;
+
+      if(req?.file?.path){
+         updateObject['localImagePath'] = req.file.path;
+      }
+
+      const response = await updatePostService(postId,updateObject);
+
+      if(response){
+         return res.status(200).json({
+            success:true,
+            message:"post updated successfully",
+            data:response,
+         })
+      }else{
+         return res.status(404).json({
+            success:true,
+            message:"post not found",
+         })
+      }
+     
+   } catch (error) {
+      console.log("error in updatePost controller:",error);
       return res.status(500).json({
          success:false,
          message:"internal server error",
