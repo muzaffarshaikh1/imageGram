@@ -31,7 +31,7 @@ export const countAllPost = async()=>{
 
 export const findPostById = async(id) =>{
     try {
-        const post = await Post.findById({id});
+        const post = await Post.findById(id);
         return post;
     } catch (error) {
         console.log(error);

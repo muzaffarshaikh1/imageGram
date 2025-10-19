@@ -1,4 +1,4 @@
-import {createPost, findAllPost, countAllPost } from '../repositories/postRepository.js'
+import {createPost, findAllPost, countAllPost, findPostById } from '../repositories/postRepository.js'
 import { uploadFileToCloudinary } from "../uploads/uploadFileToCloudinary.js";
 
 export const createPostService = async (createPostObject) => {
@@ -26,4 +26,10 @@ export const findAllPostService = async (offset,limit) =>{
     return {
         posts,totalPages,totalDocuments
     };
+}
+
+export const findPostService = async (postId) =>{
+    const post = await findPostById(postId);
+
+    return post;
 }
