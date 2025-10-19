@@ -1,7 +1,7 @@
-import {createPost as createPostRepository, findAllPost as findAllPostRepostory } from '../repositories/postRepository.js'
+import {createPost, findAllPost, countAllPost } from '../repositories/postRepository.js'
 import { uploadFileToCloudinary } from "../uploads/uploadFileToCloudinary.js";
 
-export const createPost = async (createPostObject) => {
+export const createPostService = async (createPostObject) => {
     const caption = createPostObject.caption?.trim();
 
     // upload image to cloudinary 
@@ -11,12 +11,19 @@ export const createPost = async (createPostObject) => {
 
     // const user = createPostObject.user;
 
-    const post = await createPostRepository(caption,image.secure_url);
+    const post = await createPost(caption,image.secure_url);
     return post;
 
 }
 
-export const findAllPost = async () =>{
-    const posts = findAllPostRepostory();
-    return posts;
+export const findAllPostService = async (offset,limit) =>{
+    const posts = await findAllPost(offset,limit);
+
+    const totalDocuments = await countAllPost();
+
+    const totalPages = Math.ceil(totalDocuments/limit);
+
+    return {
+        posts,totalPages,totalDocuments
+    };
 }
