@@ -1,4 +1,4 @@
-import { createPostService, findAllPostService, findPostService } from "../services/postService.js";
+import { createPostService, findAllPostService, findPostService, deletePostService } from "../services/postService.js";
 
 export async function createPost(req, res) {
 
@@ -51,6 +51,25 @@ export async function getPost(req,res){
       })
    } catch (error) {
       console.log("error in getPost controller:",error);
+      return res.status(500).json({
+         success:false,
+         message:"internal server error",
+      })
+   }
+}
+
+export async function deletePost(req,res){
+   try {
+      const postId = req.params.id;
+      
+      const post = await deletePostService(postId);
+
+      return res.status(200).json({
+         success:true,
+         message:"post deleted successfully",
+      })
+   } catch (error) {
+      console.log("error in deletePost controller:",error);
       return res.status(500).json({
          success:false,
          message:"internal server error",
