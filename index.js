@@ -10,7 +10,6 @@ app.use(express.json());
 // app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use("/api",apiRouter);
 
 app.listen(3000,()=>{

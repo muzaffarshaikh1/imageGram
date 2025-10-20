@@ -23,7 +23,6 @@ export const validate = (schema) => {
             });
         }
 
-        console.log("Zod parsed data:", result.data);
         next();
     };
 };
