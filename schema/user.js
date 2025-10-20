@@ -1,4 +1,5 @@
 import mongoose  from "mongoose";
+import { hashPassword as hashPasswordUtil } from "../utils/bcrypt.js";
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
@@ -31,10 +32,10 @@ userSchema.pre('save',function hashPassword(next){
     const user = this;
 
     // setting up salt rounds
-    const SALT = bcrypt.genSaltSync(9);
+    const salt = bcrypt.genSaltSync(9);
 
     // hashing password
-    const hashPassword = bcrypt.hashSync(user.password,SALT);
+    const hashPassword = hashPasswordUtil(user.password,salt);
 
     // storing hashPassword in user document
     user.password = hashPassword;
