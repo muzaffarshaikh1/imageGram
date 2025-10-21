@@ -33,10 +33,19 @@ export const findPostService = async (postId) =>{
 }
 
 
-export const deletePostService = async (postId) =>{
-    const post = await deletePostById(postId);
+export const deletePostService = async (postId,userId) =>{
 
-    return post;
+    const post = await findPostById(postId);
+
+    if(post.user?._id != userId){
+        throw{
+            status:401,
+            message:"unauthorized"
+        }
+    }
+    const response = await deletePostById(postId);
+
+    return response;
 }
 
 export const updatePostService = async (postId, updateObject) =>{

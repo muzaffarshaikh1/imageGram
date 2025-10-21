@@ -62,8 +62,8 @@ export async function getPost(req,res){
 export async function deletePost(req,res){
    try {
       const postId = req.params.id;
-      
-      const post = await deletePostService(postId);
+
+      const response = await deletePostService(postId,req.user._id);
 
       return res.status(200).json({
          success:true,
@@ -71,6 +71,14 @@ export async function deletePost(req,res){
       })
    } catch (error) {
       console.log("error in deletePost controller:",error);
+
+      if(error.status){
+         return res.status(error.status).json({
+             success:true,
+             message:error.message,
+         })
+      }
+
       return res.status(500).json({
          success:false,
          message:"internal server error",
