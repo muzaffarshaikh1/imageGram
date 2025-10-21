@@ -39,5 +39,15 @@ export const signinUserService = async(userObject) =>{
     const token = generateToken({ email: user.email, _id:user.id, username:user.username });
 
     return token;
-
 }
+
+export const checkIfUserExists = async(email) =>{
+    try {
+        const user = await findUserByEmail(email);
+        return user;
+    } catch (error) {
+        console.log("error in checkIfUserExists:",error);
+        throw error;
+    } 
+}
+
