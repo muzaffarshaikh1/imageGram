@@ -7,9 +7,9 @@ export const createPostService = async (createPostObject) => {
     // upload image to cloudinary 
     const image = await uploadFileToCloudinary(createPostObject.localImagePath);
 
-    // const user = createPostObject.user;
+    const user = createPostObject.user;
 
-    const post = await createPost(caption,image.secure_url);
+    const post = await createPost(caption,image.secure_url,user);
     return post;
 
 }

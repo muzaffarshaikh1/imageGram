@@ -4,7 +4,8 @@ export async function createPost(req, res) {
 
    const post = await createPostService({
       caption: req.body.caption,
-      localImagePath: req.file.path
+      localImagePath: req.file.path,
+      user:req.user._id
    })
 
    return res.status(201).json({
