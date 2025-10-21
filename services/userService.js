@@ -36,7 +36,7 @@ export const signinUserService = async(userObject) =>{
         }
     }
 
-    const token = generateToken({ email: user.email, _id:user.id, username:user.username });
+    const token = generateToken({ email: user.email, _id:user.id, username:user.username,role:user.role || "user"});
 
     return token;
 }
